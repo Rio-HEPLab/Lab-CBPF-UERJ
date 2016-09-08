@@ -1,0 +1,76 @@
+--- /Users/antoniovilelapereira/Desktop/Work/UERJ/LFNP/CAENV1x90_1_1_linux/CAENVMEToolBox/SDK/CAENV1x90SDK/cvt_V1190.c	2008-10-22 10:22:59.000000000 -0200
++++ ../../../SDK/CAENV1x90SDK/cvt_V1190.c	2016-03-02 17:48:44.000000000 -0300
+@@ -671,7 +671,23 @@
+ 
+ 	return TRUE;
+ }
+-
++////////////////////////////////////////////////////////////////////////////////////////////////
++//
++////////////////////////////////////////////////////////////////////////////////////////////////
++BOOL cvt_V1190_set_TDC_LSB(cvt_V1190_data* p_data, INT16 tdc_LSB)
++{
++	if (tdc_LSB >= 0 & tdc_LSB < 4)
++	{
++		if (!cvt_V1190_write_2_micro(p_data, CVT_V1190_SET_TR_LEAD_LSB_OPCODE, (UINT16*)&tdc_LSB, 1))
++		{
++			TRACE("V1190 CVT_V1190_SET_TR_LEAD_LSB_OPCODE write failed !\n");
++			return FALSE;
++		}
++	}
++	else {
++		TRACE("TDC_LSB must be [1,3] !\n");
++	}
++}
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+ //
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+@@ -763,6 +779,7 @@
+ 	UINT16 reg_value= 0;
+ 	//
+ 	// read status register
++
+ 	if( !cvt_read_reg( &p_data->m_common_data, CVT_V1190_STATUS_INDEX, &reg_value))
+ 	{
+ 		TRACE( "V1190 CVT_V1190_STATUS read failed !\n");
+@@ -875,7 +892,7 @@
+ 	// Serial number
+ 	if( !cvt_read_reg( &p_data->m_common_data, CVT_V1190_ROM_SERIAL_0_INDEX, &reg_value))
+ 	{
+-		TRACE( "V1190 CVT_V1190_ROM_SERIAL_LSB read failed !\n");
++		TRACE( "V1190 CVT_V1190_ROM_SERIAL_0_INDEX	read failed !\n");
+ 		return FALSE;
+ 	}
+ 	*p_serial_number= reg_value& 0x00ff;
+@@ -945,10 +962,28 @@
+ 
+ 	//
+ 	// write channel enable pattern
+-	if( !cvt_V1190_write_2_micro( p_data, CVT_V1190_WRITE_EN_PATTERN_OPCODE, p_enable_msk, num_ch>> 4))
++	// the opcode "CVT_V1190_WRITE_EN_PATTER_OPCODE" has a problem for V1190B
++	// we have to use an other opcode (CVT_V1190_WRITEEN_PATTERN32_OPCODE)
++	if ((p_data->m_type)== CVT_V1190_TYPE_B) 
+ 	{
+-		TRACE( "V1190 EN_CHANNEL_MSK write failed !\n");
+-		return FALSE;
++		if( !cvt_V1190_write_2_micro( p_data, CVT_V1190_WRITE_EN_PATTERN32_OPCODE, p_enable_msk, 2))
++		{
++			TRACE( "V1190 EN_CHANNEL_MSK write failed !\n");
++			return FALSE;
++		}
++		if( !cvt_V1190_write_2_micro( p_data, CVT_V1190_WRITE_EN_PATTERN32_OPCODE+1, p_enable_msk+2, 2))
++		{
++			TRACE( "V1190 EN_CHANNEL_MSK write failed !\n");
++			return FALSE;
++		}
++	}
++	else
++	{
++		if( !cvt_V1190_write_2_micro( p_data, CVT_V1190_WRITE_EN_PATTERN_OPCODE, p_enable_msk, num_ch>> 4))
++		{
++			TRACE( "V1190 EN_CHANNEL_MSK write failed !\n");
++			return FALSE;
++		}
+ 	}
+ 	return TRUE;
+ }

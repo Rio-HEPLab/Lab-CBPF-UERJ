@@ -1,0 +1,24 @@
+--- /Users/antoniovilelapereira/Desktop/Work/UERJ/LFNP/CAENV1x90_1_1_linux/CAENVMEToolBox/Demo/CAENV1190Demo/src/user_settings.h	2009-12-11 09:47:35.000000000 -0200
++++ user_settings.h	2016-03-10 16:26:56.000000000 -0300
+@@ -15,9 +15,10 @@
+ // File includes
+ ////////////////////////////////////////////
+ #include "common_defs.h"
+-#include "cvt_board_commons.h"
+-#include "cvt_common_defs.h"
+-#include "cvt_V1190.h"
++#include "../include/CAENVMETool/cvt_board_commons.h"
++#include "../include/CAENVMETool/cvt_common_defs.h"
++#include "../include/CAENVMETool/cvt_V1190.h"
++
+ 
+ ////////////////////////////////////////////
+ // Global defines
+@@ -102,6 +103,7 @@
+ 	//
+ 	// parameters passed through command line
+ 	char* m_parsed_output_filename;			/*!< The name for parsed data output data file */
++	char* m_parsed_txt_filename;
+ 	char* m_raw_output_filename;			/*!< The name for raw output data file */
+ 	UINT16 m_base_address;					/*!< The board base address */
+ 	long m_num_events;						/*!< Number of events to acquire */
