@@ -14,9 +14,9 @@
 const int NumDetectors = 2;
 
 // vertical distance from origin
-//Float_t z0[NumDetectors] = {0,59.7};
-//Float_t z0[NumDetectors] = {0,134.3};
-Float_t z0[NumDetectors] = {0,199.4};
+Float_t z0[NumDetectors] = {0,140};
+//Float_t z0[NumDetectors] = {0,163.1};
+//Float_t z0[NumDetectors] = {0,199.4};
 
 // type refer to the geometry  
 Int_t type[NumDetectors] = {0,0};
@@ -25,7 +25,7 @@ Int_t type[NumDetectors] = {0,0};
 Int_t Noise[NumDetectors] = {0,0};
 
 //--------------------------------------------
-const int NumTypesOfDetectors = 2;
+const int NumTypesOfDetectors = 1;
 
 Int_t InitNum = 11110012;
 TRandom3 *r1=new TRandom3();
@@ -34,12 +34,12 @@ r1->SetSeed(InitNum);
 /// geometries of detectors with rectangles: 
 /// vertices in x: x0 + icellsx * deltax, icellsx = 0 up to ncellsx
 /// vertices in y: y0 + icellsy * deltay, icellsy = 0 up to ncellsy
-Double_t x0[NumTypesOfDetectors]     = {0.0,0.0};   
-Double_t y0[NumTypesOfDetectors]     = {0.0,0.0};   
-Int_t ncellsx[NumTypesOfDetectors]   = {1,8};
-Int_t ncellsy[NumTypesOfDetectors]   = {1,8};
-Double_t deltax[NumTypesOfDetectors] = {40,5};
-Double_t deltay[NumTypesOfDetectors] = {40,5};
+Double_t x0[NumTypesOfDetectors]     = {0.0};   
+Double_t y0[NumTypesOfDetectors]     = {0.0};   
+Int_t ncellsx[NumTypesOfDetectors]   = {1};
+Int_t ncellsy[NumTypesOfDetectors]   = {1};
+Double_t deltax[NumTypesOfDetectors] = {40};
+Double_t deltay[NumTypesOfDetectors] = {40};
 
 //-------------------------------------------- 
 /// Muon production parameters
@@ -52,11 +52,8 @@ Double_t yprod  = 40;     // (reference origin y = 0)
 //-------------------------------------------- 
 /// Timing parameters
 Double_t c = 0.0299792458; // v=deltaL(cm)/deltat(ps)
-Float_t spreadDist_InsideDet = 40.0; // in cm
+Float_t spreadDist_InsideDet = 0.0; // in cm
 Float_t nrefr = 1.2;
-Int_t nbint = 500; Double_t mint=0.8; Double_t maxt=1.5; 
-Double_t par0 = 500; Double_t par1 = 2200; Double_t par2 = 1000; Double_t par3 = 500; Double_t par4 = 2200; Double_t par5 = 300;
-//Double_t par0 = 1000; Double_t par1 = 1350; Double_t par2 = 50; Double_t par3 = -0.001; 
 
 //--------------------------------------------
 /// global variables 
@@ -170,9 +167,7 @@ void Initialization(){
         //sprintf(name3,"line_%d",idet);
 
         hch[idet] = new TH2F(name1,name1,ncellsx[type[idet]],0,Double_t(ncellsx[type[idet]]),ncellsy[type[idet]],0,Double_t(ncellsy[type[idet]]));
-        //htime[idet] = new TH1F(name2,name2,nbint,mint*z0[idet]/c,maxt*z0[idet]/c);
-        htime[idet] = new TH1F(name2,name2,nbint,0,15000);
-
+        htime[idet] = new TH1F(name2,name2,500,0.1*z0[idet]/c,2*z0[idet]/c);
     }
 }
 
@@ -233,55 +228,15 @@ void Results(){
     c3->GetFrame()->SetBorderMode(3);
     c3->Divide(num1,num2);
 
-    Int_t binmax,ndf;
-    Double_t tmax,chi2;
-    // /*
-    Double_t par[3];
-    par[0] = par0;
-    par[1] = par1;
-    par[2] = par2;
-    //par[3] = par3;
-    //par[4] = par4;
-    //par[5] = par5;
-    // */
-
     for (Int_t idet=0; idet<NumDetectors; idet++)
     {
         c3->cd(1+idet);
         htime[idet]->SetLineWidth(linewidth);
         htime[idet]->Draw();
-
-        // /*
-        TF1 *fun = new TF1("fun","gaus");
-        //TF1 *fun = new TF1("fun","gaus(0)+gaus(3)");
-        //TF1 *fun = new TF1("fun",funModifiedGauss,mint*z0[idet]/c,maxt*z0[idet]/c,4);
-        fun->SetLineColor(2);
-        if (idet>0){
-          fun->SetParameters(par);
-          htime[idet]->Fit(fun);
-          fun->GetParameters(&par[0]);
-          chi2 = fun->GetChisquare(); 
-          ndf = fun->GetNDF();
-        }
-        // */
-        binmax = htime[idet]->GetMaximumBin();
-        tmax = htime[idet]->GetXaxis()->GetBinCenter(binmax);
-        cout << " z0/c = " << z0[idet]/c << endl;
-        //cout << " quality (chi2/ndf) = " << chi2 << " " << ndf << endl;
-        //cout << " pars = " << par[1] << " " << par[2] << endl;
-
+        //Float_t Correction_time = z0[idet]/c - htime[idet]->GetMean();
+        cout << "Timing values = " << z0[idet]/c << " - " << htime[idet]->GetMean() << endl;
+        cout << "Correction (cm) = " << (TMath::Abs(z0[idet]/c-htime[idet]->GetMean()))*c << endl;
     }
-
-    /*
-    TCanvas *c4 = new TCanvas("c4","test",200,10,700,500);
-    TF1 *f0 = new TF1("f0",funModifiedGauss,1200,1900,4);
-
-    f0->SetParameter(0,10);
-    f0->SetParameter(1,1350);
-    f0->SetParameter(2,60);
-    f0->SetParameter(3,-0.002);
-    f0->Draw();
-    */
 }
 
 void MuonInDetector(Int_t detector, Int_t Type, Int_t& channel_x, Int_t& channel_y, Double_t& distance){
@@ -354,7 +309,7 @@ void GenerateMuon(Int_t model){
  
       /// generating muons uniformly in the rectangle
       /// with phi angle also uniform
-      x_gen   = xprod*(RooRandom::uniform());
+        x_gen   = xprod*(RooRandom::uniform());
     	y_gen   = yprod*(RooRandom::uniform());
     	phi_gen = pi*(2.0*(RooRandom::uniform())-1.);        //// -pi to pi
  
@@ -367,7 +322,7 @@ void GenerateMuon(Int_t model){
     	{
        		r = 1.1*RooRandom::uniform();
        		theta_gen = (pi/2)*(RooRandom::uniform());  //// 0 to pi/2
-          if (model==0) prod = pow(cos(theta_gen),2.);  
+                if (model==0) prod = pow(cos(theta_gen),2.);  
       		if (model==1) prod = cos(2.0*theta_gen);                            
     	}
 
@@ -381,8 +336,6 @@ Double_t funModifiedGauss(Double_t *x, Double_t *param)
   func_mod = TMath::Exp(param[3]*(x[0]-param[1]) );
   func = (TMath::Exp(- func_mod * func_mod * (param[1]-x[0]) * (param[1] - x[0]) / (2.0 * param[2] * param[2]) ) );
   G = param[0]*func;
-
-  //G = param[0];
 
   return G;
 

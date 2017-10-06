@@ -57,6 +57,7 @@ void MakeTree(TString const& input, TString const& output, TString const& output
 	
         fpos_t pos;
         bool valid = true;
+        unsigned int const channel_ref = 0;
 
 	while( !feof(data) ){
 
@@ -80,7 +81,8 @@ void MakeTree(TString const& input, TString const& output, TString const& output
 		 if( !strncmp(line,"Ev",2) ){ 
 		    ret = sscanf(line,"Ev %d\n", &event);
 		    cout << "Event " << event << endl;
-		    if ( ret && ( event == (prev_event + 1) ) ) { valid = true; cout << "Found correct position." << endl; break; }
+		    //if ( ret && ( event == (prev_event + 1) ) ) { valid = true; cout << "Found correct position." << endl; break; }
+		    if ( ret && ( event >= (prev_event + 1) ) ) { valid = true; cout << "Found correct position." << endl; break; }
 		 } 
 	      }
 	      if ( !valid ) break;
@@ -108,7 +110,7 @@ void MakeTree(TString const& input, TString const& output, TString const& output
 	   fgetpos( data, &pos );
 	   ret = fscanf(data,"%3d %5d\n", &channel0, &counts0);
 	   cout << "Channel: " << channel0 << " Counts: " << counts0 << endl;
-	   if ( channel0 != 0 ) { valid = false; fsetpos( data, &pos ); prev_event = event; continue; }
+	   if ( channel0 != channel_ref ) { valid = false; fsetpos( data, &pos ); prev_event = event; continue; }
 
 	   if( counts0 < 0 ){
 	      ++null_events;

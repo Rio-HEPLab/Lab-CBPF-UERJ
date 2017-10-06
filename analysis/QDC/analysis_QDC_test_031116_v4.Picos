@@ -1,0 +1,27 @@
+V 4 --analysis_QDC_test_031116_v4.root","SiPM"
+
+18-25 (pC)
+
+EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Constant     8.04301e-02   2.27517e-03   3.58297e-06   8.25926e-02
+   2  Mean         2.17635e+01   4.72935e-02   9.58367e-05  -3.95677e-03
+   3  Sigma        1.82078e+00   4.94484e-02   1.50998e-05   3.60315e-02
+
+28-38 (pC)
+
+EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Constant     2.65971e-02   1.16250e-03   2.88757e-06  -1.32613e-01
+   2  Mean         3.28682e+01   9.90298e-02   3.71162e-04   1.38376e-04
+   3  Sigma        2.87476e+00   1.33359e-01   4.17117e-05  -3.95532e-02
+
+
+38-48 (pC)
+
+EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Constant     9.43333e-03   6.19263e-04   7.59153e-07   2.48551e+00
+   2  Mean         4.34672e+01   3.21725e-01   5.83490e-04   1.43603e-03
+   3  Sigma        4.32659e+00   5.83134e-01   7.43633e-05   2.70256e-02
+

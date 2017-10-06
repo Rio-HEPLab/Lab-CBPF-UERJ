@@ -79,20 +79,22 @@ void MakeTree(TString const& input, TString const& output, TString const& output
 
                 fgetpos( data, &pos );
 		ret = fscanf(data,"%d %d", &channel0, &tdc0);
-                if ( channel0 != 0 ) { valid = false; fsetpos( data, &pos ); prev_event = event; continue; }
+                if ( channel0 != 1 ) { valid = false; fsetpos( data, &pos ); prev_event = event; continue; }
 
                 fgetpos( data, &pos ); 
 		ret = fscanf(data,"%d %d", &channel1, &tdc1);
-                if ( channel1 != 1 && channel1 != 2 ) { valid = false; fsetpos( data, &pos ); prev_event = event; continue; }
+                if ( channel1 != 2 && channel1 != 1 ) { valid = false; fsetpos( data, &pos ); prev_event = event; continue; }
 
                 if( use_all_channels ){
                    fgetpos( data, &pos ); 
 		   ret = fscanf(data,"%d %d", &channel2, &tdc2);
-                   if ( channel2 != 1 && channel2 != 2 ) { valid = false; fsetpos( data, &pos ); prev_event = event; continue; }
+                   if ( channel2 != 0 && channel2 != 2 ) { valid = false; fsetpos( data, &pos ); prev_event = event; continue; }
                 }
 
-		tdc = ( use_all_channels ) ? abs( (tdc2-tdc1)*25 ) : (tdc1-tdc0)*25;
-		
+		//tdc = ( use_all_channels ) ? abs( (tdc2-tdc1)*25 ) : (tdc1-tdc0)*25;
+		//tdc = ( use_all_channels ) ? abs( (tdc2-tdc0)*25 ) : (tdc1-tdc0)*25; //conf channels		
+		tdc = ( use_all_channels ) ? abs( (tdc1-tdc0)*25 ) : (tdc1-tdc0)*25; //conf channels		
+
 		if( tdc0 == 0 || tdc1 == 0 || tdc2 == 0 || tdc < 0 ){
 			(eventN++);
 			fprintf(arqNull, "Eventos Nulo: %d Event: %d TDC0: %d TDC1: %d\n",eventN,event,tdc0,tdc1);
@@ -114,7 +116,6 @@ void MakeTree(TString const& input, TString const& output, TString const& output
 
 }
 
-
 void ReadTree(TString const& filename){
 	
 
@@ -130,7 +131,7 @@ void ReadTree(TString const& filename){
 
         double res = 300.; // ps
         double hist_xmin =  0.;
-        double hist_xmax =  15000.;
+        double hist_xmax =  50000.;
         int n_bins = ( hist_xmax - hist_xmin )/res;
 	TH1F* hist = new TH1F("Histogram", "Events X TDC", n_bins, hist_xmin, hist_xmax);
         hist->Sumw2(true);

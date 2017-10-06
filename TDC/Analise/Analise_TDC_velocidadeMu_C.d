@@ -61,6 +61,8 @@
 ./Analise_TDC_velocidadeMu_C.so: /home/lablafex6/Downloads/root/include/TPoint.h
 ./Analise_TDC_velocidadeMu_C.so: /home/lablafex6/Downloads/root/include/TAttCanvas.h
 ./Analise_TDC_velocidadeMu_C.so: /home/lablafex6/Downloads/root/include/TCanvasImp.h
+./Analise_TDC_velocidadeMu_C.so: /home/lablafex6/Downloads/root/include/TMath.h
+./Analise_TDC_velocidadeMu_C.so: /home/lablafex6/Downloads/root/include/TError.h
 ./Analise_TDC_velocidadeMu_C.so: /home/lablafex6/Downloads/root/include/TH1F.h
 ./Analise_TDC_velocidadeMu_C.so: /home/lablafex6/Downloads/root/include/TH1.h
 ./Analise_TDC_velocidadeMu_C.so: /home/lablafex6/Downloads/root/include/TAxis.h
@@ -76,5 +78,7 @@
 ./Analise_TDC_velocidadeMu_C.so: /home/lablafex6/Downloads/root/include/TFormula.h
 ./Analise_TDC_velocidadeMu_C.so: /home/lablafex6/Downloads/root/include/TBits.h
 ./Analise_TDC_velocidadeMu_C.so: /home/lablafex6/Downloads/root/include/Math/ParamFunctor.h
+./Analise_TDC_velocidadeMu_C.so: /home/lablafex6/Downloads/root/include/TGraphErrors.h
+./Analise_TDC_velocidadeMu_C.so: /home/lablafex6/Downloads/root/include/TGraph.h
 ./Analise_TDC_velocidadeMu_C.so: /home/lablafex6/Downloads/root/include/cintdictversion.h /home/lablafex6/Downloads/root/include/RVersion.h
 Analise_TDC_velocidadeMu_C__ROOTBUILDVERSION= 5.34/36

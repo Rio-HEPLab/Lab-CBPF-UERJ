@@ -1,0 +1,46 @@
+analysis_QDC_test_031116_v3 - Picos
+
+18-24(pC)
+
+EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Constant     3.82923e-03   7.62451e-04   4.68186e-07  -2.52223e-01
+   2  Mean         2.15066e+01   2.45418e-01   1.97803e-04   3.49249e-04
+   3  Sigma        1.44194e+00   2.38582e-01   3.61449e-05  -5.41067e-03
+
+28-38(pC)
+
+EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Constant     7.95200e-03   8.19477e-04   7.35174e-07  -1.84315e-02
+   2  Mean         3.34556e+01   2.24312e-01   2.64748e-04  -6.37130e-05
+   3  Sigma        2.55129e+00   2.15192e-01   2.68399e-05  -2.54238e-05
+
+38-50 (pC)
+
+EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Constant     1.26762e-02   1.02817e-03   1.43159e-06   1.04088e-01
+   2  Mean         4.46849e+01   2.00704e-01   3.83776e-04   9.03896e-04
+   3  Sigma        2.99464e+00   2.22559e-01   3.54379e-05  -2.59723e-02
+
+
+51-59 (pC)
+
+ EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Constant     1.50322e-02   1.31997e-03   1.49214e-06   3.91009e-02
+   2  Mean         5.57120e+01   2.37053e-01   3.38198e-04   4.15860e-05
+   3  Sigma        2.53121e+00   3.12449e-01   5.05033e-05   1.08540e-03
+
+62-72 (pC)
+
+EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Constant     1.13925e-02   9.32877e-04   1.27246e-06  -6.12096e-02
+   2  Mean         6.66103e+01   4.80751e-01   9.55057e-04  -1.03243e-04
+   3  Sigma        4.90448e+00   9.20248e-01   1.15774e-04   3.82638e-05
+
+
+
+
