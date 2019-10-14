@@ -1,0 +1,79 @@
+--- /Users/antoniovilelapereira/Desktop/Work/UERJ/LFNP/CAENV1x90_1_1_linux/CAENVMEToolBox/Demo/CAENV1190Demo/src/user_settings.c	2008-10-22 10:22:51.000000000 -0200
++++ user_settings.c	2016-03-31 17:05:16.000000000 -0300
+@@ -14,24 +14,26 @@
+ #include <malloc.h>
+ #include <stdlib.h>
+ #include <string.h>
++#include <stdio.h>
+ #include "common_defs.h"
+ #include "user_settings.h"
+ 
+ ////////////////////////////////////////////
+ // File local defines
+ ////////////////////////////////////////////
+-#define DEF_RAW_OUTPUT_FILENAME				"raw_values.dat"						/*!< Raw board values default filename */
+-#define DEF_PARSED_OUTPUT_FILENAME			"parsed_values.dat"						/*!< Parsed board values default filename */
++#define DEF_RAW_OUTPUT_FILENAME				"output/raw_values.dat"						/*!< Raw board values default filename */
++#define DEF_PARSED_OUTPUT_FILENAME			"output/parsed_values.dat"						/*!< Parsed board values default filename */
++#define DEF_PARSED_TXT_FILENAME			    "output/parsed_txt.dat"
+ 
+ #define MAX_FILENAME_LENGHT					255										/*!< Maximum filenam length */
+ 
+ #define DEF_NUM_EVENTS						-1										/*!< Default number of events */
+-#define DEF_BASE_ADDRESS					0x3210									/*!< Default boards' base address */
+-#define DEF_BOARD_TYPE_STR					"V1190A"								/*!< Default V1190's type string */
+-#define DEF_V1190_TYPE						CVT_V1190_TYPE_A						/*!< Default V1190's type */
+-#define DEF_TDC_COUNT						CVT_V1190_NUM_TDC_A						/*!< Default V1190 number of TDCs */
++#define DEF_BASE_ADDRESS					0x00FF									/*!< Default boards' base address */
++#define DEF_BOARD_TYPE_STR					"V1290N"								/*!< Default V1190's type string */
++#define DEF_V1190_TYPE						CVT_V1290_TYPE_N						/*!< Default V1190's type */
++#define DEF_TDC_COUNT						CVT_V1290_NUM_TDC_N						/*!< Default V1190 number of TDCs */
+ #define DEF_ACQUISITION_MODE				AM_TRIGGER_MATCH						/*!< Default acquisition mode */
+-#define DEF_ACQUISITION_MODE_PARAMS			"1,1,0,-1,-1,-1,-1,1,0"					/*!< Default acquisition mode params */
++#define DEF_ACQUISITION_MODE_PARAMS			"0,1,0,120,-80,1,1,2,0,0xffff,0xffff,0xffff"	/*!< Default acquisition mode params */
+ 
+ ////////////////////////////////////////////
+ // File local variables declaration
+@@ -54,6 +56,7 @@
+ 	// module variable init
+ 	p_data->m_raw_output_filename= (char*)malloc( MAX_FILENAME_LENGHT);
+ 	p_data->m_parsed_output_filename= (char*)malloc( MAX_FILENAME_LENGHT);
++	p_data->m_parsed_txt_filename = (char*)malloc(MAX_FILENAME_LENGHT);
+ 
+ 	// setting default values ...
+ 	if( p_data->m_raw_output_filename== NULL)
+@@ -66,6 +69,11 @@
+ 	else
+ 		strcpy( p_data->m_parsed_output_filename, DEF_PARSED_OUTPUT_FILENAME);
+ 
++	if (p_data->m_parsed_txt_filename == NULL)
++		TRACE("user setting module: insufficient memory !\n");
++	else
++		strcpy(p_data->m_parsed_txt_filename, DEF_PARSED_TXT_FILENAME);
++
+ 	p_data->m_num_events= DEF_NUM_EVENTS;
+ 	p_data->m_base_address= DEF_BASE_ADDRESS;
+ 	p_data->m_V1190_type= DEF_V1190_TYPE;
+@@ -94,10 +102,13 @@
+ 		free( p_data->m_raw_output_filename);
+ 	if( p_data->m_parsed_output_filename)
+ 		free( p_data->m_parsed_output_filename);
++	if (p_data->m_parsed_txt_filename)
++		free(p_data->m_parsed_txt_filename);
+ 
+ 	// setting invalid values ...
+ 	p_data->m_raw_output_filename= NULL;
+ 	p_data->m_parsed_output_filename= NULL;
++	p_data->m_parsed_txt_filename = NULL;
+ 
+ 	return TRUE;
+ }
+@@ -390,7 +401,7 @@
+ 	if( !tok)
+ 		return FALSE;
+ 	target->m_window_width= atoi( tok);
+-
++	printf("\n m_window_width = %d", target->m_window_width);
+ 	tok= strtok( NULL, ", ");
+ 	if( !tok)
+ 		return FALSE;

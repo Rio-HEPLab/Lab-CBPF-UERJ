@@ -1,0 +1,24 @@
+--- /Users/antoniovilelapereira/Desktop/Work/UERJ/LFNP/CAENV1x90_1_1_linux/CAENVMEToolBox/SDK/CAENV1x90SDK/cvt_board_commons.c	2009-09-01 09:10:25.000000000 -0300
++++ ../../../SDK/common/src/cvt_board_commons.c	2008-10-22 12:51:36.000000000 -0200
+@@ -300,12 +300,7 @@
+ BOOL cvt_FIFO_BLT_read( cvt_board_data* p_data, UINT16 address, void* p_buffer, UINT32 buffer_size, UINT32 *p_read_bytes, CVAddressModifier am, CVDataWidth data_size, BOOL *p_is_berr)
+ {
+ 	// Avoid CAENVMELib Linux Driver limits to 16 MB
+-
+-    
+-	//const UINT32 MAX_BLT_SIZE= 8*1024*1024;
+-    //HACK LCOL riditta dime MAX_BLT per prove con  USB si A1700
+-    const UINT32 MAX_BLT_SIZE= 8*1024*1024;
+-
++	const UINT32 MAX_BLT_SIZE= 8*1024*1024;
+ 	int read_bytes= 0;
+ 	UINT32 bytes_to_read= 0;
+ 	CVErrorCodes err_code;
+@@ -315,7 +310,6 @@
+ 	{
+ 		bytes_to_read= (( buffer_size- *p_read_bytes)>  MAX_BLT_SIZE)? MAX_BLT_SIZE: buffer_size- *p_read_bytes;
+ 		*p_is_berr= FALSE;
+-
+ 		switch( err_code= CAENVME_FIFOBLTReadCycle( p_data->m_vme_handle, (((UINT32)p_data->m_base_address)<< 16)| address, (void*)((UINT8*)p_buffer+ *p_read_bytes), bytes_to_read, am, data_size, &read_bytes))
+ 		{
+ 		case cvBusError:

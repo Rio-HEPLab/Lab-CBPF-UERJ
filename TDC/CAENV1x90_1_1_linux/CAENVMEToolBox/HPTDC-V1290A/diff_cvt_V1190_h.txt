@@ -1,0 +1,20 @@
+--- /Users/antoniovilelapereira/Desktop/Work/UERJ/LFNP/CAENV1x90_1_1_linux/CAENVMEToolBox/SDK/CAENV1x90SDK/include/cvt_V1190.h	2013-07-03 06:02:24.000000000 -0300
++++ cvt_V1190.h	2016-02-26 18:36:30.000000000 -0300
+@@ -918,6 +918,17 @@
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+ CVT_DLL_API BOOL cvt_V1190_set_head_trail_enable( cvt_V1190_data* p_data);
+ 
++
++////////////////////////////////////////////////////////////////////////////////////////////////
++/*! \fn		BOOL cvt_V1190_set_TDC_LSB( cvt_V1190_data* p_data, INT16 tdc_LSB); 
++*   \brief  Set TDC Leading/Trailing resolution. Modification for V1290N. 
++*           Helio Nogima
++*
++*   \param  p_data Pointer to board data, tdc_LSB: 0 = 800ps; 1 = 200ps; 2 = 100ps; 3 = 25ps(def) 
++*/
++////////////////////////////////////////////////////////////////////////////////////////////////
++CVT_DLL_API BOOL cvt_V1190_set_TDC_LSB(cvt_V1190_data* p_data, INT16 tdc_LSB);
++
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+ /*! \fn      BOOL cvt_V1190_set_head_trail_disable( cvt_V1190_data* p_data);
+ *   \brief   Disable TDC Header and Trailer in readout
